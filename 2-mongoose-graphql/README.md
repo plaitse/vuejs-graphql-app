@@ -1,6 +1,6 @@
 # 2-mongoose-graphql
 
-MongoDB Atlas
+To use MongoDB Atlas database:
 
 - Create a free cluster on MongoDB Altas platform
 - Create a full right user
