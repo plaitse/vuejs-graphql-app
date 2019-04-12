@@ -1,1 +1,10 @@
-# vuejs-graphql-app
+# vuesjs-graphql-app
+
+Full-stack JavaScript app using:
+
+- VueJS
+- Vuetify
+- GraphQL
+- Apollo
+- Mongoose
+- MongoDB with mLab
