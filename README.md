@@ -7,4 +7,4 @@ Full-stack JavaScript app using:
 - GraphQL
 - Apollo
 - Mongoose
-- MongoDB with mLab
+- MongoDB Atlas
