@@ -1,8 +1,18 @@
-# 2-mongoose-graphql
+# 3-vuejs-client
 
-To use MongoDB Atlas database:
+## Installation
 
-- Create a free cluster on MongoDB Altas platform
-- Create a full-right user
-- Copy and use the URI given on the platform by replacing the correct user/password values
-- A log "DB Connected" should appear in the console
+```vue create client```
+
+```vue add vuetify```
+
+## Vuetify presets - Configure (advanced)
+
+- No pre-made template
+- No custom theme
+- No custom properties (CSS variables)
+- Icon font: Material Icons
+- No fonts as a dependency (for Electron or offline)
+- No a-la-carte components
+- Use babel/polyfill
+- Use English locale
