@@ -16,3 +16,5 @@
 - No a-la-carte components
 - Use babel/polyfill
 - Use English locale
+
+To set the colors of the theme: https://theme-generator.vuetifyjs.com/
