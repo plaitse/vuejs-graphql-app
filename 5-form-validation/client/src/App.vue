@@ -81,6 +81,27 @@
         <transition name="fade">
           <router-view/>
         </transition>
+
+        <!-- Auth snackbar -->
+        <v-snackbar v-model="authSnackbar" color="success" :timeout="5000" bottom left>
+          <v-icon class="mr-3">check_circle</v-icon>
+          <span>You are now signed in!</span>
+          <v-btn dark flat @click="authSnackbar = false">Close</v-btn>
+        </v-snackbar>
+
+        <!-- Auth error snackbar -->
+        <v-snackbar
+          v-if="authError"
+          v-model="authErrorSnackbar"
+          color="info "
+          :timeout="3000"
+          bottom
+          left
+        >
+          <v-icon class="mr-3">cancel</v-icon>
+          <span>{{authError.message}}</span>
+          <v-btn dark flat to="/signin">Signin</v-btn>
+        </v-snackbar>
       </v-container>
     </main>
   </v-app>
@@ -93,11 +114,13 @@ export default {
   name: "App",
   data() {
     return {
-      sideNav: false
+      sideNav: false,
+      authSnackbar: false,
+      authErrorSnackbar: false
     };
   },
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters(["authError", "user"]),
     horizontalNavItems() {
       let items = [
         { icon: "chat", title: "Posts", link: "/posts" },
@@ -123,6 +146,16 @@ export default {
         ];
       }
       return items;
+    }
+  },
+  watch: {
+    user(newValue, oldValue) {
+      // If we had no value for user before, show snackbar
+      if (oldValue === null) this.authSnackbar = true;
+    },
+    authError(value) {
+      // If auth error is not null, show auth error snackbar
+      if (value !== null) this.authErrorSnackbar = true;
     }
   },
   methods: {
