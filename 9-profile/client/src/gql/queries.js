@@ -11,6 +11,20 @@ export const GET_POSTS = gql`
   }
 `;
 
+export const GET_USER_POSTS = gql`
+  query($userId: ID!) {
+    getUserPosts(userId: $userId) {
+      _id
+      title
+      imageUrl
+      description
+      categories
+      createdDate
+      likes
+    }
+  }
+`;
+
 export const GET_POST = gql`
   query($postId: ID!) {
     getPost(postId: $postId) {
@@ -113,6 +127,46 @@ export const ADD_POST = gql`
       categories
       description
       createdDate
+    }
+  }
+`;
+
+export const UPDATE_USER_POST = gql`
+  mutation(
+    $postId: ID!
+    $userId: ID!
+    $title: String!
+    $imageUrl: String!
+    $categories: [String]!
+    $description: String!
+  ) {
+    updateUserPost(
+      postId: $postId
+      userId: $userId
+      title: $title
+      imageUrl: $imageUrl
+      categories: $categories
+      description: $description
+    ) {
+      _id
+      title
+      imageUrl
+      categories
+      description
+      createdDate
+      likes
+      createdBy {
+        _id
+        avatar
+      }
+    }
+  }
+`;
+
+export const DELETE_USER_POST = gql`
+  mutation($postId: ID!) {
+    deleteUserPost(postId: $postId) {
+      _id
     }
   }
 `;

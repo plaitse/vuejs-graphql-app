@@ -45,6 +45,7 @@ type LikesFaves {
 type Query {
   getCurrentUser: User
   getPosts: [Post]
+  getUserPosts(userId: ID!): [Post]
   getPost(postId: ID!): Post!
   searchPosts(searchTerm: String): [Post]
   infiniteScrollPosts(pageNum: Int!, pageSize: Int!): PostsPage
@@ -58,6 +59,15 @@ type Mutation {
     description: String!
     creatorId: ID!
   ): Post!
+  updateUserPost(
+    postId: ID!
+    userId: ID!
+    title: String!
+    imageUrl: String!
+    categories: [String]!
+    description: String!
+  ): Post!
+  deleteUserPost(postId: ID!): Post!
   addPostMessage(messageBody: String!, userId: ID!, postId: ID!): Message!
   likePost(postId: ID!, username: String!): LikesFaves!
   unlikePost(postId: ID!, username: String!): LikesFaves!

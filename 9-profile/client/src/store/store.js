@@ -6,8 +6,12 @@ import { defaultClient as apolloClient } from "../main";
 import {
   GET_CURRENT_USER,
   GET_POSTS,
+  INFINITE_SCROLL_POSTS,
+  GET_USER_POSTS,
   SEARCH_POSTS,
   ADD_POST,
+  UPDATE_USER_POST,
+  DELETE_USER_POST,
   SIGNIN_USER,
   SIGNUP_USER
 } from "../gql/queries";
@@ -19,6 +23,7 @@ export default new Vuex.Store({
     posts: [],
     searchResults: [],
     user: null,
+    userPosts: [],
     loading: false,
     error: null,
     authError: null
@@ -32,6 +37,9 @@ export default new Vuex.Store({
     },
     setUser: (state, payload) => {
       state.user = payload;
+    },
+    setUserPosts: (state, payload) => {
+      state.userPosts = payload;
     },
     setLoading: (state, payload) => {
       state.loading = payload;
@@ -54,7 +62,7 @@ export default new Vuex.Store({
           query: GET_CURRENT_USER
         })
         .then(({ data }) => {
-          console.log(data.getCurrentUser);
+          // console.log(data.getCurrentUser);
           commit("setLoading", false);
           // Add user data to state
           commit("setUser", data.getCurrentUser);
@@ -81,6 +89,18 @@ export default new Vuex.Store({
           console.log({ err });
           commit("setLoading", false);
         });
+    },
+    getUserPosts: ({ commit }, payload) => {
+      apolloClient
+        .query({
+          query: GET_USER_POSTS,
+          variables: payload
+        })
+        .then(({ data }) => {
+          commit("setUserPosts", data.getUserPosts);
+          console.log("getUserPosts :", data.getUserPosts);
+        })
+        .catch(err => console.log(err));
     },
     searchPosts: ({ commit }, payload) => {
       apolloClient
@@ -121,7 +141,17 @@ export default new Vuex.Store({
               _id: -1,
               ...payload
             }
-          }
+          },
+          // Rerun specified queries after performing the mutation in order to get fresh data
+          refetchQueries: [
+            {
+              query: INFINITE_SCROLL_POSTS,
+              variables: {
+                pageNum: 1,
+                pageSize: 2
+              }
+            }
+          ]
         })
         .then(({ data }) => {
           console.log(data.addPost);
@@ -131,6 +161,45 @@ export default new Vuex.Store({
           console.log({ err });
           commit("setLoading", false);
           commit("setError", err);
+        });
+    },
+    updateUserPost: ({ state, commit }, payload) => {
+      apolloClient
+        .mutate({
+          mutation: UPDATE_USER_POST,
+          variables: payload
+        })
+        .then(({ data }) => {
+          const index = state.userPosts.findIndex(
+            post => post._id === data.updateUserPost._id
+          );
+          const userPosts = [
+            ...state.userPosts.slice(0, index), // Retrieve post to be updated
+            data.updateUserPost, // Paste new info in it
+            ...state.userPosts.slice(index + 1) // Pate rest of the array of posts
+          ];
+          commit("setUserPosts", userPosts);
+        })
+        .catch(err => console.log({ err }));
+    },
+    deleteUserPost: ({ state, commit }, payload) => {
+      apolloClient
+        .mutate({
+          mutation: DELETE_USER_POST,
+          variables: payload
+        })
+        .then(({ data }) => {
+          const index = state.userPosts.findIndex(
+            post => post._id === data.deleteUserPost._id
+          );
+          const userPosts = [
+            ...state.userPosts.slice(0, index),
+            ...state.userPosts.slice(index + 1)
+          ];
+          commit("setUserPosts", userPosts);
+        })
+        .catch(err => {
+          console.log({ err });
         });
     },
     signinUser: ({ commit }, payload) => {
@@ -189,6 +258,7 @@ export default new Vuex.Store({
     posts: state => state.posts,
     searchResults: state => state.searchResults,
     user: state => state.user,
+    userPosts: state => state.userPosts,
     userFavorites: state => state.user && state.user.favorites,
     loading: state => state.loading,
     error: state => state.error,
