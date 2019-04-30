@@ -1,4 +1,4 @@
-import "@babel/polyfill";
+// import "@babel/polyfill";
 import Vue from "vue";
 import "./plugins/vuetify";
 import App from "./App.vue";
@@ -17,7 +17,8 @@ Vue.use(VueApollo);
 
 // Setup Apollo client
 export const defaultClient = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
+  // uri: "http://localhost:4000/graphql",
+  uri: "https://vuejs-graphql.herokuapp.com/graphql", // Heroku setting
   // Include auth token w/ requests made to backend
   fetchOptions: {
     credentials: "include"
