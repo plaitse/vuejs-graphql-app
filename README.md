@@ -11,6 +11,13 @@ Full-stack JavaScript app using:
 
 Available at this URL: https://vuejs-graphql.paulrblt.now.sh
 
+## GraphQL
+
+- `typeDefs` are the definition of our schema of what we can expect from queries and mutations.
+- `resolvers` define the functions and behaviors of how should the queries and mutations would work.
+- `queries` are the “gets” that we want to read from the server.
+- `mutations` are the requests that are going to affect any data that we have on our own server.
+
 ## Heroku and Now settings
 
 On Heroku's website, go to your project, click on the "Settings" tab and then on "Config Vars" and provide the content of `variables.env`.
@@ -50,10 +57,3 @@ SECRET=12323JHDBZHD92NSD9JSDNJKD
 ```
 
 The `/test` after mongodb.net refers to the database named "test".
-
-## GraphQL
-
-- `typeDefs` are the definition of our schema of what we can expect from queries and mutations.
-- `resolvers` define the functions and behaviors of how should the queries and mutations would work.
-- `queries` are the “gets” that we want to read from the server.
-- `mutations` are the requests that are going to affect any data that we have on our own server.
