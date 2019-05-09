@@ -50,3 +50,21 @@ SECRET=12323JHDBZHD92NSD9JSDNJKD
 ```
 
 The `/test` after mongodb.net refers to the database named "test".
+
+## GraphQL
+
+### typeDefs
+
+The definition of our schema of what we can expect from queries and mutations.
+
+### Resolvers
+
+Instead of the expectation of fields or required parameters, here we define the functions and behaviors of how should the queries and mutations would work.
+
+### Queries
+
+The “gets” that we want to read from the server.
+
+### Mutations
+
+Our requests that are going to affect any data that we have on our own server.
